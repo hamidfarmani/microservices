@@ -2,17 +2,18 @@ package com.hamid.customer;
 
 import com.hamid.clients.fraud.FraudCheckResponse;
 import com.hamid.clients.fraud.FraudClient;
+import com.hamid.clients.notification.NotificationClient;
+import com.hamid.clients.notification.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
   private final CustomerRepository customerRepository;
-  private final RestTemplate restTemplate;
   private final FraudClient fraudClient;
+  private final NotificationClient notificationClient;
 
   public void register(CustomerRegistrationRequest request) {
     Customer customer =
@@ -29,5 +30,11 @@ public class CustomerService {
     if (fraudCheckResponse.isFraudster()) {
       throw new IllegalStateException("Fraudster!");
     }
+
+    notificationClient.sendNotification(
+        new NotificationRequest(
+            customer.getId(),
+            customer.getEmail(),
+            String.format("Hi %s, welcome to this project", customer.getFirstName())));
   }
 }
