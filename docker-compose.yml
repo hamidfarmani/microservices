@@ -46,31 +46,31 @@ services:
     networks:
       - spring
 
-  eureka-server:
-    image: hamidfarmani/eureka-server:latest
-    container_name: eureka-server
-    ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-    depends_on:
-      - zipkin
+#  eureka-server:
+#    image: hamidfarmani/eureka-server:latest
+#    container_name: eureka-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
 
-  api-gateway:
-    image: hamidfarmani/api-gateway:latest
-    container_name: api-gateway
-    ports:
-      - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
-    networks:
-      - spring
-    depends_on:
-      - zipkin
-      - eureka-server
+#  api-gateway:
+#    image: hamidfarmani/api-gateway:latest
+#    container_name: api-gateway
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
+#      - eureka-server
 
 
   customer:
@@ -80,14 +80,14 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+#      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
       - spring.rabbitmq.addresses=rabbitmq:5672
     networks:
       - spring
       - postgres
     depends_on:
       - zipkin
-      - eureka-server
+#      - eureka-server
       - postgres
       - rabitmq
 
@@ -98,13 +98,13 @@ services:
       - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+#      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
     networks:
       - spring
       - postgres
     depends_on:
       - zipkin
-      - eureka-server
+#      - eureka-server
       - postgres
       - rabitmq
 
@@ -115,14 +115,14 @@ services:
       - "8082:8082"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+#      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
       - spring.rabbitmq.addresses=rabbitmq:5672
     networks:
       - spring
       - postgres
     depends_on:
       - zipkin
-      - eureka-server
+#      - eureka-server
       - postgres
       - rabitmq
 
